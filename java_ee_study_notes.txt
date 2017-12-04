@@ -1,0 +1,340 @@
+#
+##
+### Chapter 1 Intro to Java EE
+  Intro to Servlet, Filter, Listener, JSP
+  understand WAR, EAR files and different ClassLoader Architectures
+
+classLoader
+   isolating the web application from others on the same server.
+
+code for my web application + thrid party library code
+
+Java Servelt
+   Java class responsible for accepting and responding to HTTP requests.
+
+Filter
+   Java EE component that intercepts HTTP request to your Servlet.
+
+Listener
+
+JSP
+
+Life cyle of Jave web app
+  create, kill, listener, etc
+
+JAR vs. WAR vs. EAR	
+  each archives come with different ClassLoader Architecture
+
+Tag library descriptor
+
+Tomcat use context.xml(Deployment Descriptor) to descript how to deploy the application.
+
+WEB-INFO + META-INFO
+
+Annotation vs. Java Configuration API
+   used to configure web aplication, 
+
+Web Fragment
+   JAR files in your web app
+
+ClassLoader archicture:
+  Classloader -> Extension classloader -> application classloader
+  Parent-frist(Java app) vs parent-last(Java EE app)
+
+#
+##
+### Chapter 2 Using Web Container
+
+
+web container == servlet container (implements only Servelt, JSP, JSTL specification. ie. GlassFish, Tomcat) vs. application server (implments all Java EE specification)
+  application server contains web container
+  web container can be used on: manage Servlet life cycle, map URL to Servlet code, accept/response HTTP request, manage Filter chain, 
+
+Tomcat:
+  partical Java EE implementation:
+    Servlet
+    Java Server Page
+    Java Unified Expression
+    Websocket
+
+
+GlassFish:
+  full Java EE implementation
+
+
+List of web container:
+  Tomcat, Jetty, Tiny
+
+List of Application Server:
+  GlassFish, WildFly, JOnAS, Resin, Caucho, Enhydra, Oracle WebLogic, IBM WebSphere,
+
+
+Tomcat pratice:
+  deploy web app
+  undeploy web app
+  debug web application from IDE
+  setup Tomcat on IntelliJ
+  add Tomcat configuration to a Project
+
+#
+##
+### Chapter 3 Writing First Servlet
+   Create a Servlet Class
+   Configure a Servlet for deployment
+   understand doGet(), doPost() and other methods
+   using parameters and accepting form submission
+   configure application using ini parameter
+   upload files from a form
+   make application safe for multithreading
+
+Servlet:
+  Servlet is core classes in any web application, handles HTTP request or deletge it to other part of aplication
+  Web container also contains built-in Servlets
+  extends HttpServlet and GenericSerlvet, need to overload the doGet(), doPost() methods, etc
+
+HttpServlet:
+  its methods take arguments(HttpServletRequest, HttpServletResponse)
+
+The Web Container interpretes the HTTP request in doGet() and reads the headers and parameters from the WebSocket. After the method finished, it also formates the response header and body and write them back to the socket
+
+Initializer and Destroyer:
+  init() is called after Servlet is contructed, but before it can response to the first request
+    after the Servlet is set, you can have access to ServletConfig and ServletContext object
+    can use init() method to read a properties file or connect to a database using JDBC
+  destory() is called when the Servlet no longer accepting request
+
+ServletConfig class:
+
+
+Configuring a Servlet for deployment:
+  deployment descriptor(Add the servlet to the descriptor):
+    it is a web.xml file
+    instructs the Web Container how the application should be deployed
+    defines all the Servlet, listener, filter should be depolyed with the application
+    defines the settings for the web application 
+  (Map the Servlet to URL):
+    different URLs can map to same Servlet
+    same Servlet class can have different Servlet name, ie. two Servlet can have identical logic, but connecting to different database
+
+The Servlet's service() mehthod services all incoming request.
+   service() understands the headers and parameters that the client sends and then return proper HTTP response 
+   service method enables you:
+     read parameter passed from client
+     accept uploaded files from a posted form
+     read raw data contained in the request body(ie. handle PUT request, accept JSON request body)
+     read request header/manipulate response header/write response content back to client
+
+
+
+doGet(), doPost(), doPut(), etc and all the service method returns empty HTTP response by default
+
+Using HttpServletRequest:
+  HttpServletRequest can retrieve request parameter, which is passed by the client
+  Request Parameter has two form:
+    query parameter == URI parameter (ie. GET /index.jsp?productId=9781118656464&category=Books HTTP/1.1)
+    post varialbe == form varialbe == encoded request body, (ie. application/x-www-form-urlencoded or multipart/form-data encoded request body)
+      POST /index.jsp?returnTo=productPage HTTP/1.1
+	  Host: www.example.com
+	  Content-Length: 48
+	  Content-Type: application/x-www-form-urlencoded
+	  addToCart&productId=9781118656464&category=Books
+  methods for retrieving Request Parameter:
+    getParameter, getParameterMap, getParameterNames, getParameterValues, 
+  Content of Request
+  Request characteristics: URL, URI, and headers
+    getHeader, getHeaderNames, getSession, getCookie, etc
+
+
+Using HttpServletResponse:
+  set response header, write to response body, redirect request, set HTTP status code, send cookie back to client/
+
+ # 12/04
+
+accepting form submission:
+  ie. using @WebServelt annotation on class HelloServlet 
+
+configuring application and its Servlet using Initialization Parameters:
+  using context init parameter (also called init parameter)
+  using Servlet init parameter
+  define information about connecting to a relational database
+  provide email address to send store alert to.
+  init parameters define at the application startup, and can't change without restarting the application
+
+  parameters in the xml can be change without restarting the application
+
+Annotation-based configuration:
+  pro: no xml, concise annotation lanuage, define ordering for Filter, define error-handling page, configure JSP setting, provide a list of welcome page.
+  con: can't create multiple instance of single Servlet class,
+
+Uploading files from a Form:
+  it was a complex procude in Java EE, Apache make Commons FileUpload to handel the work
+  Servlet 3.0 introduces getPart() and getParts() in HttpServletRequest
+
+
+Customer Support Project:
+  allow users to post questions or suppport tickets
+  enable employee to respond to the inquries
+  support ticket and comments have file attatchments.
+  provide a chat windows with customer rep
+  support internationalization
+  secure
+
+Create the Servlet for File Uploades
+  Ticket Class (POJO)
+  Attatchment Class (POJO)
+  TicketServlet class:
+    @WebServlet
+    @MultipartConfig
+
+Accepting a file upload:
+  
+
+
+Makine web application multithread safe:
+  web container has thread pool(also called connector poool, executor pool)
+  Request will goes into a first-in-first-out queue for thread execution, when the thread pool in web container is full.
+  Tomcat has a thread pool of 200 by default.
+
+Protecting shared resource:
+  static and instance variable in Servlet can be accessed by multiple threads simultaneously
+  access to shared resources should be synchronized
+  volatile keyword (ie. private volatile int TICKET_ID_SEQUENCE = 1;)
+  use synchronized bloack (no thread can execute the lines of code at the same time)
+
+Warning: never store request/response objects in static or instance variable.
+
+#
+##
+### Chapter 4 using JSPs to Display Content
+  using <br /> is easier than output.println("<br />")
+  creating first JSP
+  using Java within JSP(and why you shouldn't)
+  combining Servlet and JSP
+  A note about JSP Document JSPX
+
+Why JSP
+  JSP can contain:
+    HTML
+    Java code
+    biult-in JSP tags
+    custom JSP tags
+    Expression Language (EL)
+
+JSP life cycle:
+
+syntax
+directive:
+  <%@ this is a directive %>
+  used to direct JSP interpreter: 
+    to perform an action (such as setting the content type), 
+    to import a class, 
+    to include other JSP at translantion time,
+    include a JSP tag library.
+
+declaration:
+  <%! this is declaration %>
+  contains Java code
+  used to declare something within the scope of your JSP Servlet class:
+    define instance varialbe, methods, or classes within a delaration tag
+    declaration are inner classes of the JSP Servlet class
+
+scriptlet:
+  <% this is a scriptlet %>
+  contains Java code
+  class and variable defined within scriptlet can't be used within a delcartion. 
+  Scriptlet codes are copied to the body of _jspService method
+  define local variable, but not instance field:
+    you can use conditional statement, manipulate object, perform arithmetic, and all other things you cant do in JSP delcartion.
+  
+
+expression:
+  <%= this is express %>
+  contains simple Java code that can return something that can be written to the client output.
+  contains expression output 
+  Expression has the same scope as scriptlet, codes are copied to _jspService()
+
+
+JSP vs JSF(Facelet) vs other templating frameworks(Velocity, FreeMarker, SiteMesh, Tiles)
+
+JSP code -> Java Code -> bytecode -> machinecode
+
+JSP is a syntax-sugared Servlet class
+
+Create your first JSP:
+  understand the file structure:
+    4 JSP tags
+  commentingi JSP code:
+    XML comment == HTML comment (ie.  	<!-- this is HTML/XML comment -->), JSP codes inside HTML comment will be evaluted, also will be snet to brower
+    Java line comment
+    Java block comment
+    JSP comment (ie. <%-- this is JSP comment -->), not interpreted by JSP compiler and not send to broswer
+
+
+Addding import to JSP:
+  using page directive to import Java class (ie. <%@ page import="java.util.*" %>)
+
+Using directive:
+  3 types of directives:
+    (change page Properties) page directive:
+      provides control over how the JSP is translated, rendered, and transimitted back to the client
+      (ie. pageEncoding, session, isELIgnored, buffer and autoFlash)
+        no buffer can improve performance of JSP, because it decrease memory consumption, and CPU overhead.
+        no buffer can result in sending more packets back to the client.
+      (more ie. errorPage, isErrorPage, isThreadSafe, extends)
+    (include other JSPs) include directive:
+      (ie. <%@ include file="path/to/some/file.jsp" %>, path can be relative/absolute), include directive is translated at compile time for once only
+      can be done using <jsp:include> tag (ie. <jsp:include path="path/to/some/page.jsp" />), the included file is translated separately.
+      At run time, the request is temporarily forwarded to the include JSP, the resulting output of the JSP of that JSP is written to the response, and then the control returns back to the including JSP.
+    (including tag library) 
+      taglib directive can be used to reference a tag library, so that you can use the tags defined by the tag library in your JSP.
+      ie. <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+      will goes into detial on Chater 7
+
+using <jsp> tag:
+  all JSPs support a special kind of tag with an XMLNSS prefix of jsp.
+    ie. <jsp:forward page="/path/to/some/page.jsp"> forwards a request from the JSP it is currently executing in to some other JSP. Anything the JSP writes to the responses stays in the response when the forward occurs. Partial result written to the the response will be erased, if you are using a redirect.
+    ie. <jsp:useBean> tag declares the presense of a JavaBean on the page
+      instantiates a class to create a bean
+      this bean can be accessed using other two bean tags, custom tags, and JSP scriptlets and expressions.
+      Advantages of declaring a bean this way is:
+        beans can be accessed to other JSPs.
+        if beans are declaried in scriptlet, it can only be used by scriptlets and expressions.
+    ie. <jsp:getProperty> tag retrieves properties from beans declared with <jsp:useBean>
+    ie. <jsp:setProperty> tag sets the property(using setter methods)
+    ie. <jsp:plugin> tag, it is a tool for embedding Java Applets in rendering HTML, <jsp:plugin type="applet" code="MyApplet.class" jreversion = "1.8">
+
+ Using Java within JSP (and why you shouldn't)
+   using the implicit varialbes in a JSP:
+     JSP files have implicity variables(object) for use within scriptlets and expressions (it is defined by the JSP specification)
+     The variables have method scope
+       means, you can't use them within any code JSP declaration, because declartion have class scope.
+     total of 9 implicit variables:
+       request/response:
+       
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
