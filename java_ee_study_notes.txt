@@ -310,31 +310,19 @@ using <jsp> tag:
        means, you can't use them within any code JSP declaration, because declartion have class scope.
      total of 9 implicit variables:
        request/response:
-       
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	     both are instances of HttpServletRequest and HttpServletResponse
+	     anythings you can do with Servlet, you can do it in JSP
+	   session:
+	     this variable is an instance of HttpSession
+	   out:
+	     this is a JspWriter instance
+	   application:
+	     this is a instance of ServletContext interface. gives you access to the configuration of the web application as a while, including all the context init parameter
+	   config:
+	     is an instance of the ServletConfig interface. can be used to access the configuration of the JSP Servlet, such as the Servlet init Parameter
+		pageContext:
+		  it an instance of PageContext class, provides serveral convenience methods for getting request attribues, and session attributes, accessing the request and response, including other files, and forwading the request. 
+		  usually being used for writing cusom JSP tags
+			   
 
 
