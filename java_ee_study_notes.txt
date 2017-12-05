@@ -433,7 +433,13 @@ Storing Data in a session:
 Storing more complex data in sessions:
  
 
- 
+Applying Session usefully:
+  Adding login to the Customer Support Application:
+  Detecting changes to sessions using listeners:
+    session event:
+      using publish-and-subscribe model(separete code that checks session changes, and code that makes change to session)
+        code that you use to detect these changes are called listeners
+        listener listen to some form of session activity 
 
 
 
