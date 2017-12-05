@@ -291,7 +291,7 @@ Using directive:
       will goes into detial on Chater 7
 
 using <jsp> tag:
-  all JSPs support a special kind of tag with an XMLNSS prefix of jsp.
+  all JSPs support a special kind of tag with an XMLNS prefix of jsp.
     ie. <jsp:forward page="/path/to/some/page.jsp"> forwards a request from the JSP it is currently executing in to some other JSP. Anything the JSP writes to the responses stays in the response when the forward occurs. Partial result written to the the response will be erased, if you are using a redirect.
     ie. <jsp:useBean> tag declares the presense of a JavaBean on the page
       instantiates a class to create a bean
@@ -338,7 +338,103 @@ using <jsp> tag:
   Combining Servlets and JSPs
     you need this for handling complex logic, data validation, data persistence, and a detailed presentation layer.
     configuring JSP properties in the Deployment Descriptor:
-      
+      use web.xml
+      add <jsp-config>
+        add <jsp-property-group>
+      <url-pattern> in both a <servlet-mapping> vs <jsp-property-group>
+      if the <url-pattern> tag is identical, <jsp-property-group> wins over the Servlet mapping.
+      if some files matches a <url-pattern> in more than one JSP property group and more than one of those property groupd contains <include-prelude> or <include-coda> rules, the indlue rules from all the JSP peoperty groups are applied for that file.
+
+  Using JSP Properties
+    ie. <include-prelude> and <include-coda>
+    ie. <page-encoding>
+    ie. <trim-directive-whitespaces>
+    ie. <scripting-invalid>, <el-ignored>
+  Forwarding a request from a Servlet to a JSP
+    ie. to have the Servlet accept the request, do business logic processing and data storage or retrieval, prepare a model that can easily to be used in a JSP, and then forward the request to the JSP
+    ie. use the Request Dispatcher -> request.getRequestDispatcher("/WEB-INF/jsp/view/ticketForm.jsp").forward(request, response);
+    ie. design for the presentation layer
+    "request attribute" is not the same as request parameter:
+      request attribute is object while request parameter is Strings.
+      request attribute is for internal use within your web application
+
+  JSP Document vs JSP
+    JSPX works with pure XML, but it has more strict schema or they will fial to parse.
+    JSPX can be slightly easier to detect problems with the JSP at compile time instead of run time.
+
+
+#
+##
+### Chapter 5 Maintaining State Using Sessions
+  Why sessions are necessary
+  working with cookies and URL parameters
+  How to store data in a session
+  Making sessions usefull
+  How to cluster an application that uses sessions
+
+Why session is necessary:
+  associate multiple requests coming from the same client
+  share data between those requests
+  Sessions are used to maintain state between one request and the next.
+  remembering users
+  enabling application workflow
+
+Using session cookies and URL rewriting:
+  A session is some file, memory segment, object or container managed by the server or web application that contains various data elementes assigned to it. These data elements sould be a username, a shopping cart, workflow details, and more.
+  Session ID is the link between the server and browser.
+  Session Cookie:
+    also called HTTP cookie:
+   	  stores various attributes, such as a domain name, a pth, an expiratio date or maximum age, a secure flag, and an HTTP-only flag
+   	    domain attribute:
+   	      instructs the brower for which doamin names it should send the cookied back
+   	    path attribute:
+   	      enables the cookie to further be restricted to a certian URL relative to the domain
+    web server use cookies to store session IDs on the client side
+
+
+# day 3, 12/05
+
+  ways of making cookie works:
+    1. store Session ID cookie on client side, server send the cookie to client for once, and client has to send back the cookie everytime if connects back to server.
+    2. transimit Session ID through URLs, so you can avoid using cookie
+      ie. the session ID is embedded in the Location header URI and in every single URL in the markup.
+      Java EE Servlet API makes embedding seesion ID simple:
+        encodeURL()
+        encodeRedirectURL()
+    3. using <c:url> tag
+
+
+  Session Vulnerabilities:
+    copy and paste on session ID embedded URL
+      cookie is more safe for this case
+    session fixation
+      hacker get the session ID embedded URL and let victim use it
+        use session migration:
+          change session ID after victim logged in
+    cross-site scripting and session hijacking
+      hacker use JS to read the session ID and assuming the identiy of the victim.
+      session ID cookied should include the HttpOnly attribute(making brower to use cookie only on HTTP/HTTPS request) (this prevents JS accessiong Session, but not Ajax, because brower is responsible for formating the Ajax request header)
+    Insecure Cookies:
+      hackers intercepts request and response between the client and server. this gave rise to Secure Socket Layer and Transport Layer Security and HTTPS protocol.
+      need to use HTTPs all the time to make this secure
+  
+  The strongest defense:
+    SSL/TLS session ID
+    web container will not know what the SSL session ID is, because if you use a web server or load balancer to mange your SSL in a clusterd server environemtns.
+
+
+Storing Data in a session:
+  configure sessions in the web.xml:
+    <session-config>, <cookie-config> or use ServletContext 
+  Storing and retrieving data:
+  using session in your servlet:
+  using session in your JSP:
+
+Storing more complex data in sessions:
+ 
+
+ 
+
 
 
 
