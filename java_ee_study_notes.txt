@@ -436,10 +436,35 @@ Storing more complex data in sessions:
 Applying Session usefully:
   Adding login to the Customer Support Application:
   Detecting changes to sessions using listeners:
-    session event:
+    session event(when changes are made to sessions, the web container can notify your application of these chagnes):
       using publish-and-subscribe model(separete code that checks session changes, and code that makes change to session)
-        code that you use to detect these changes are called listeners
-        listener listen to some form of session activity 
+        listener (code that detects changes) listen to some form of session activity 
+          3 methods of registering listener
+            1. annotate with @WebListener 2. Declare in web.xml 3. register it using ServeltContext's addListener()
+          ie. you subscribe to an event by implemtn the listener interface
+          ie. something happens that triggers the publication of an event to which your code is subscribed -> the container invokes the method on your class corresponding to that event.
+        sessionID will change after you login and logout, for safety
+        Note: when Tomcat is restarted, you will see the sessions from previous runtime. Tomcat tries to restore the serialized sessions to memory.
+
+Maintaining a list of active sessions:
+  creating a SessionREgistry class:
+    adding a reference to the Sessions, because sessions stored on memory is for other purpose.
+
+
+Clustering an application that uses sessions:
+  If your application runs on different Tomcat instances, you may see different sessions listed. 
+  If you want to see all sessions on all different Tomcat instances, you need:
+    configure application for clustering
+    setup session replication in your web container
+  Pro: redundancy, scalability
+  Con: passing message between instance of an application running on separate machines
+    AMQP, JMS, MSMQ
+
+  What is Load Balancing?
+
+
+  Using SessionID in a cluster:
+    
 
 
 
