@@ -323,6 +323,23 @@ using <jsp> tag:
 		pageContext:
 		  it an instance of PageContext class, provides serveral convenience methods for getting request attribues, and session attributes, accessing the request and response, including other files, and forwading the request. 
 		  usually being used for writing cusom JSP tags
-			   
+	    page:
+	      this is the this variable from theJSP Servlet object. 
+	    exception:
+	      this variable is available after setting the isErrorPage to true
+  Why you shouldn't use Java in a JSP
+    Pro: things you can do using Java, can be done in JSP
+      ie. connect to, query, manipulate a database
+      ie. access and wirte to files on the server file system.
+      ie. sort a binary tree with one billion nodes
+    Con: JSP is designed for the presentation layer, also know as the view.
+      ie. presentation layer should be separated from the buiness logic. 
+
+  Combining Servlets and JSPs
+    you need this for handling complex logic, data validation, data persistence, and a detailed presentation layer.
+    configuring JSP properties in the Deployment Descriptor:
+      
+
+
 
 
