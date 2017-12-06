@@ -523,15 +523,46 @@ Collections:
   ${map["userId"]}
   ${map.username}
   ${map.userId}
+  you can't access Sets and Queues Collection type using Expression Language
+
+Using Scoped variables in EL expressions:
+  EL has set of implicit variable (10 of them is Map object) (just like JSPs have 9 implicity variables)
+  also has implicit scope in which unknown vaiables are resolved.
+  4 different attribute scope
+    page: encapsulates attributes for a particular page JSP and request. variable bound to page scope only availabe to that JSP and its life request. It is the JspContext or PageContext object.
+    request: exists anywhere that has access to the request object, and the attributes bound to the request are no longer bound after the request completes.
+    session: 
+    application: existing across all request, sessions, JSP pages, and Servlets. It is the ServletContext object
+
+Using the implicit EL scope:
+  EL defines 11 implicity variables.
+    used to resolve an attribute in the request, session, page or application scope.
+    How EL evaluator resolves the variable:
+      1. checks if the variable is one of the 11 implicity variables
+      2. if not, EL evaluator next looks for an attribute in the page scope, PageContext.getAttribute("variable")
+      3. if finding no matching page attribute, the valuator looks for request attribute, HttpServletREquest.getAttribute("variable")
+      4. """, looks for session attribute HttpSession.getAttribute("variable")
+      5. """, looks for application attribute, ServletContext.getAttribute("variable")
+      6. if finding no matching on all 4 scope, raise an error
+    why this feature is useful:
+      no need to retrieve an instance of the HttpServletREquest or HttpSession to use attributes on either of these objects
+      ie. Username: ${user.username} (${user.username.length()} characters) <br />
+      ie. Full Name: ${fn:escapeXml(user.lastName += ', ' += fn:escapedXml(user.firstName))}
+      ie. if we change to request.getSession().setAttribute("user", user);, this will still works. The user attribute will be in session scope, instead of request.
+      ie. change to this.getServletContxt().setAttribute("user", user); will also work
+
+Using the 11 implicit EL variables:
+  pageContext: an instance of the PageContext class. can access the page error data and exception object, the expression evaluator, the output writer, the JSP Servlet instance, the request and response, the ServletContext, the ServletConfig, and the session.
+  pageScope: is a Map<String, Object> containing all the attributes bound to the pageContext.
+  requestScope: is a Map<String, Object> of all the attributes bound to the ServletRequest. Using this, you can access these attributes without calling a method on the request object
+  sessionScope: contains all the session attribues from the current session.
+  applicationScope: contains all the attributes bound to the ServletContext instance.
+  param and paramValues: both provide access to the request parameter.
+  header and headerValues: provide access to the request header.
+  initParam: contains all the context init parameter from ServletContext intance for this application
+  cookie: contains all the cookied that the user's browwer sent along with the request. is a Map<String, javax.servlet.http.Cookie>. More than one cookie can have the same name, but different path. You need to iterate over all the cookies in order to get the duplicate cookie.
 
 
-
-
-
-
-
-
-
-
-
+Accessing Collections with Stream API:
+  
 
