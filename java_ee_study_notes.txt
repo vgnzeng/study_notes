@@ -461,10 +461,75 @@ Clustering an application that uses sessions:
     AMQP, JMS, MSMQ
 
   What is Load Balancing?
+    ie. round-robin, load-smart
 
 
   Using SessionID in a cluster:
-    
+    if two consecutive request from same client go to different web container. Each one has a different session ID, which means that session is useless
+    one solution to this problem is:
+      employee sticky session:
+      	Sticky session is that the load balancing mechanism is session-aware and always sends a request form the same session to the same server.
+
+#
+##
+### Chapter 6 Using Expression Language in JSPs
+  EL syntax
+  how to use scoped variables in EL expressions
+  how to access collections with JAva 8 stre4ams in EL expression
+  switching out Java code with Expression Language
+
+Expression Language (EL expressions when the JSP is rendered)
+  base syntax:
+    immediate evaluation: it is EL expression that the JSP engine should parse and evaluate at the time of page rendering
+      ${expr}
+
+    deferred evaluation: it is EL expression that supports the needs of JavaServer Faces most of the time.
+      #{expr}
+  Placing EL expressions:
+    can be used within standard HTML tag attribute, <input type="text" name="something" value="${expr}" />
+    can be used within JSP tag attribute, <c:url value="/something/${expr}/${expr}" />
+
+Writing with the EL syntax, what you can put within an EL expression:
+  EL is designed to provide you with tools you need to create JSPs without Java.
+
+Collection literal type:
+  you can construct Sets, Lists, Maps
+  literal Set -> HashSet<Object>
+  literal LIst -> ArrayLIst<Object>
+  literal Map -> HashMap<Object, Object>
+
+Object Properties and Methods:
+  ${shirt.size}
+  ${shirt["size"]}
+  ${shirt["styleCategory"]}
+
+EL functions:
+  in EL, a function is a special tool mapped to a static method on a class.
+    ie. ${[ns]:[fn]([a1[, a2[, a3[, ...]]]])}
+
+Static Field and Method Access:
+  ie. ${java.lang.Integer.MAX_VALUE}
+  access static field, method of class
+
+Enums:
+  ie. ${dayOfWeek == java.time.DayOfWeek.SATURDAY}
+
+Lambda Expressions:
+  ie. ${v = (a, b) -> a + b; v(3, 15)}
+  ie. ${users.stream().filter(u -> u.lastName == 'Williams' || u.lastName == 'Sanders ').toArray()}
+
+Collections:
+  ${map["username"]}
+  ${map["userId"]}
+  ${map.username}
+  ${map.userId}
+
+
+
+
+
+
+
 
 
 
