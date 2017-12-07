@@ -702,7 +702,12 @@ Core Tag Library:
 	  referencing the URL
 	  <a href="${homepageUrl}">Home</a>
 
+  <c:if>
+    ie. <c:if test="${something == somethingElse}">
+           excute only if test is true
+        </ c:if>
 
+    
 
 
 
