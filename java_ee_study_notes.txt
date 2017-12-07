@@ -222,7 +222,7 @@ Why JSP
 
 JSP life cycle:
 
-syntax
+several unique structures that define a sort of JSP language
 directive:
   <%@ this is a directive %>
   used to direct JSP interpreter: 
@@ -564,5 +564,65 @@ Using the 11 implicit EL variables:
 
 
 Accessing Collections with Stream API:
-  
+  some of Stream operation return other Streams, allowing you to create a chained pipiline of operations.
+  This pipeline consists of a pipeline source (the Stream), the intermediate operations (usch as filtering and sorint), and finally a terminal operation (such as converting the results to a List that can be iterated and displayed).
+  ie. filters a Collection of books by title, reduces the properties availabe for each book to just the title and authoer, and returns a List of the results:
+     books.stream().filter(b->b.title == 'Professional Java for Web Applications')
+	 .map(b->{ 'title':b.title, 'author':b.author })
+     .toList()
+  understanding Intermediate Operations:
+    ie. fiter, sort, reduct, transform, or alter a collection of value.
+    original Collection or array is never altered.
+    ie. Filter: ${books.stream().filter(b -> b.author == "John F. Smith")}
+    ie. manipulate values: ${books.stream().forEach(b -> b.setLastViewed(Instant.now()))}
+    ie. sorting the stream: ${books.stream().sorted((b1, b2) -> b1.title.compareTo(b2.title))}
+    ie. limite the stream size: ${books.stream().limit(10)}
+    ie. transform the stream: ${books.stream().map(b -> b.title)}
+  Using Terminal Operations:
+    convert Stream back into Collection or array.
+    ie. ${books.stream().map(b -> b.title).toArray()}
+  Using Aggregate functions:
+    ie. max, min, average, etc
+
+EL expression can only replace some of Java code, if you need to loop within EL expression or have blocks of code evaluted base on whethere some exppresio is, you need to use the JSTL, Java Standard Tag Library.
+
+#
+##
+### Chapter 7 Using Java Standard Tag Library:
+  understand JSP tags and the JSTL
+  how to implemtn the Core tag library (C namespace)
+  how to use the formatting tag library (FMT namespace)
+  how to use the Database Access tag library (SQL namespace)
+  how to use the XML processing tag library (XML namespace)
+  Swapping Java code with JSP tags.
+
+JSP tags and the JSTL
+  goal: Java free JSPs
+  Expression Language is helpful in repalcing some Java code only.
+
+WOrking with JSP tags: action == tags
+  JSP tags are a spacie syntax of the JSP that looks like any normal HTML or XML tag.
+  JSP tags are also called actions, because that is what they do
+    such as creating or restricting ouput
+
+JSP tags require an XML namespace to be referenced correctly.
+  ie. using the taglib directive:
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/funtions" %>
+  ie. the prefix attribute in a taglib directive (or the XML namspace) represents the namespace with which the tag library is reference throughout the JSP page.
+  ie. the uri attribute indicates the URI defined in the TLD for that tag library. This is how the JSP parser locates the appropriate TLD for the referenced tag library: It finds the TLD containing the same URI.
+
+  Tag Library Descriptor: 
+    is an XML document that contains information about a library as a whole and about each tag contained in the library.
+    TLD s are used by a web container to validate the tags and by JSP page developemnt tools.
+
+    Alternative: (prevents XML document parser from parsing your JSP)
+      XMLNS technique for referencing XML namespaces in XML documents:
+        <jsp:root xmlns="http://www.w3.org/1999/xhtml" version="2.0"
+			 	  xmlns:jsp="http://java.sun.com/JSP/Page"
+				  xmlns:c="http://java.sun.com/jsp/jstl/core"
+				  xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+
+
 
