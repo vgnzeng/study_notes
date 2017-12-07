@@ -623,6 +623,84 @@ JSP tags require an XML namespace to be referenced correctly.
 				  xmlns:c="http://java.sun.com/jsp/jstl/core"
 				  xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 
+  THe URI is only a naming convention, not acutally the location of the TLD. the TLDs you use are included with your application. They can be in the container, in application's JAR files, or in yourapplication's WEB-INF directory. The URI is a technique for uniquely identifying a TLD so that the tags you use can be correctly associated with the appropriate TLD.
+
+  JSP parser encounters a taglib directive -> locates the TLD file for that tag library, looking for the URI in few locations.
+    ie. Theres locations can be found:
+      1. if the container is a Java EE-compliant container, the parser looks for matching TLD files that are part of the Javae EE specification, including the JSP tag library, the Java Standard TRag LIbrary, and any JSF libraries.
+      2. Then checks explicit <taglib> declarations wihin the <jsp-config> section of the depolyment descriptor
+      3. If the parser still hann't located a matching TLD file, it check any TLD file contained within the META-INF directory of any JAR files placed in your application's /WEB-INF/lib directory, or any TLD files placed in your application's /WEB-INF directory or in any subdirectoreis of /WEB-INF.
+  	  4. Finally, the parser checks any other TLD files that ship as part of the web container or application server.
+
+  Explicit <taglib> declaraion is normally not needed unless the TLD you are refereincing does not contain a URI, or not located within one of the other locations., or you need to override a TLD with a confilicting URI supplied in some third-party JAR file that you dont have control over.
+    ie. <jsp-config>
+        ...
+		<taglib>
+		  <taglib-uri>http://www.example.org/xmlns/jsp/custom</taglib-uri>
+		  <taglib-location>/tld/custom.tld</taglib-location>
+		</taglib>
+		...
+		</jsp-config>
+
+  After a taglib directive is configured to resolve to the appropriate TLD, you can use the tags within that library in your JSP.
+    syntax: 
+      <prefix:tagname [ attribute=value [attribute=value[...]]] />
+      prefix denotes the JSP tag library prefix, also called the Namespace
+      tagname denotes the name of the tag as defined in the TDL
+      attribute values are quoted
+
+  One tag library (prefix jsp) is implicityly included for use in all your JSPs.
+
+  examples of tag library: 
+    <jsp:include>
+    <jsp:forward>
+    <jsp:plugin>
+    <jsp:useBean>
+
+  All web containers support using tag libaries with JSPs, because this support is part of the JSP specification.
+  however, some web containers do not implemtn the Java Standard Tag LIbrary specification.
+
+  In web.xml:
+    "provided" scope, ie. Tomcat already includes the JSP API library
+    "compile" scope, ie. Tomcat does not provide a JSTL implementation
+
+
+There are five tag libraies in the JSTL specification:
+  Core (c)
+  Formatting (fmt)
+  Functions (fn)
+  SQL (sql)
+  XML (x)
+
+
+Core Tag Library:
+  contains nearly all the core functionality you need to replcae the Java code in JSP.
+    includes: tools for conditional programming, looping, and iterating, and output content.
+  <c:out>, outputting content to JSP
+    <c:out value="${someVariable}" />, escapes reserved XML characters, same as ${fn:escapeXml (someVariable)}
+  <c:url>
+    properly encodes URLs, and rewrite them to add the seesion ID, and can also ouput URLs in your JSP
+      <c:url value = "http://www.example.net/content/news/today.jsp">
+        <c:param name="story" value="${storyID}">
+        <c:param name="seo" value="${seoString}">
+      </ c:url>
+      
+      or
+      <a href="/view.jsp?forumId=12">Product Forum</ a>
+	 
+	  or
+	  <a href="<c:url value="/view.jsp">
+	    <c:param name="forumID" value="12" />
+	  </ c:url>"> Product Forum</ a>
+
+	  or, save the resulting URL to a scoped variable:
+	  <c:url value="/index.jsp" var="homepageUrl" />
+	  <c:url value="/index.jsp" var="homepageUrl" scope="request" />
+	  referencing the URL
+	  <a href="${homepageUrl}">Home</a>
+
+
+	  
 
 
 
