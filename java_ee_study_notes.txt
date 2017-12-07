@@ -649,6 +649,9 @@ JSP tags require an XML namespace to be referenced correctly.
       tagname denotes the name of the tag as defined in the TDL
       attribute values are quoted
 
+### day 3, 12/07
+
+
   One tag library (prefix jsp) is implicityly included for use in all your JSPs.
 
   examples of tag library: 
@@ -700,7 +703,7 @@ Core Tag Library:
 	  <a href="${homepageUrl}">Home</a>
 
 
-	  
+
 
 
 
