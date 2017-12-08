@@ -753,12 +753,38 @@ Using the Internationalization and Formatting tag library (FMT namespace)
 
   <fmt: timeZone> and <fmt: setTimeZone>
 
+  <fmt: formatDate> and <fmt:parseDate>
 
-
+  <fmt:formatNumber> and <fmt:parseNumber>
 
 internationalization of your application: the process of replacing the <fmt:message> tags in JSP
 localization: the process of creating the properties files that contain the translation
 
+Using the database access tag library (SQL namespace)
+  provide transactional access to relational database.
+  <%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql" %}
+  you should avoid performing database actions within the presentation layer(JSPs)
+  pro: prototyping new application/quickly testing theoriy or concept
 
+Using the XML processing tag library (X namespace)
+  it is used for parse and traverse XML. Not recommended for use anymore, because of the JSON standard.
+
+
+#
+##
+### Chapter 8 Writing Custom Tag and Function Libraries
+  All about TLDs, tag files, and tag handles
+  Creating an HTML template using a tag file
+  How to create a more useful data formatting tag handler
+  Abbreviating strings using an EL function
+  How to replace Java code with custom JSP tags
+
+Understaing TLDs, tag files and tag handler:
+  All JSP tags result in execution of some tag handler.
+  Tag handler is an implmentation of javax.servlet.jsp.tagext.Tag or javax.servlet.jsp.tagext.SimpleTag and contains Java code for the tag's wanted behavior.
+    A tag handler is specified within a tag definition in a TLD
+
+
+# day 4, 12/08
 
 
