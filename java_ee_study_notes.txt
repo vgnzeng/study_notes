@@ -787,4 +787,13 @@ Understaing TLDs, tag files and tag handler:
 
 # day 4, 12/08
 
+  Pro: tag files writes simple markup like JSPs and allowing the use of other JSP tags within them.
+  A tag definition in a TLD can point to either a tag handler class or to a tag file.
+  taglib directive enables you to create the TLD functions:
+    <%@ taglib prefix="myTags" tagdir="/WEB-INF/tags" %>
+  	  specifies a directory in which tag files can be found. Any .tag or .tagx files will bound to the myTags namespace.(can be delared as TLD or with a taglib directive)
+  JSP tag files can also be defined in JAR files within your application's /WEB-INF/lib directory:
+    tag files are placed in the /META-INF/tags directory and must be delared within a TLD in the META-INF directory of the same JAR.
 
+  Reading the Java Standard Tag Library TLD
+  
