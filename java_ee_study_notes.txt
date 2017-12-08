@@ -796,4 +796,46 @@ Understaing TLDs, tag files and tag handler:
     tag files are placed in the /META-INF/tags directory and must be delared within a TLD in the META-INF directory of the same JAR.
 
   Reading the Java Standard Tag Library TLD
+    tag files are JSPs with slightly different semantics.
+
+  Comparing JSP directive vs. Tag file directive:
+    page directive in JSP vs. tag directive in Tag file
+
+  Creating your first tag file to server as an HTML template:
+    1. write a tag file 2. use a tablib directive with the tagdir attribute  
+
+
+
+  creating a more useful Date fomatting tag handler:
+
+ all tags must implement either the Tag interface or SimpleTag imterface, both of which extend the JspTag marker interface. Tag is the classic tag handler that has been around since early days of JSPs, whereas SimpleTag was added in JSP2.0 to make tags simpler to write.
+
+Creating an EL function to abbreviate strings:
+  you can use TLD to define EL function and tags.
+  you can map an EL function to a public static method of some class.
+  using a function abbreviate from org.apache.commons.lang3.StringUtils, 
+  ie. 
+    <function>
+	  <description>...</description>
+	  <name>abbreviateString</name>
+	  <function-class>org.apache.commons.lang3.StringUtils</function-class>
+	  <function-signature>
+	    java.lang.String abbreviate(java.lang.String,int)
+	  </function-signature>
+	</function>
+  
+Replacing Java code with custom JSP Tags:
+
+Chapter 8 recap:
+  create custom JSP tags and EL function
+  exam the Tag Library Descriptor by taking a look at the TLDs from Java Standard Tag Library.
+  using tag file to create HTML template
+    ie. <template:main htmlTitle="Some Title"> xxxx </ template:main>
+  create a better date and time formatting tag
+
+
+  #
+  ##
+  ### Chapter 9 Improving your application using Filters:
+
   
