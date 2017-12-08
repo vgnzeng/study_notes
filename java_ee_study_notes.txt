@@ -804,8 +804,6 @@ Understaing TLDs, tag files and tag handler:
   Creating your first tag file to server as an HTML template:
     1. write a tag file 2. use a tablib directive with the tagdir attribute  
 
-
-
   creating a more useful Date fomatting tag handler:
 
  all tags must implement either the Tag interface or SimpleTag imterface, both of which extend the JspTag marker interface. Tag is the classic tag handler that has been around since early days of JSPs, whereas SimpleTag was added in JSP2.0 to make tags simpler to write.
@@ -831,11 +829,38 @@ Chapter 8 recap:
   exam the Tag Library Descriptor by taking a look at the TLDs from Java Standard Tag Library.
   using tag file to create HTML template
     ie. <template:main htmlTitle="Some Title"> xxxx </ template:main>
+  define a Tag function in the custom TLD
   create a better date and time formatting tag
 
 
   #
   ##
   ### Chapter 9 Improving your application using Filters:
+    Why using Filters
+    how to create, declare, and map filters
+    how to properly order your filters
+    using filter with asynchronous request handling
+    exploring practical use of filters
+    using filters to simplify authentication
 
-  
+Purpose of Filter:
+  Filters are application components that can intercept requests to resource or response from resource or both.
+    can inspect and modify request and response
+    can even reject, redirect, and forward request.
+  Filters can declared in the deployment descriptor or with annotation. 
+    They can have init parameter, and access the servletContext.
+  Types of Filter:
+    Logging Filter:
+    Authentication Filter:
+      make checking authentication in every Servlet easier, by centralizing authentication and authorization checks into one location that intercepts all secure request.
+    Compression and Encryption Filter:
+      Filter that compress responses when it is going back to the client.
+      Web container or application server, with HTTPS, can help you decrypt request, and encrypt response.
+        However, when the consumer of your resources is not a browser or other web client, usinng filters can help encrypt and decrypt.
+    Error Handling Filters
+      wrap request handling in a try-catch block for catching and logging any errors.
+      using this filter to secure sensitive information being revealed with the Internal Server Error code 500.
+
+Creating, declaring and mapping filters:
+
+
