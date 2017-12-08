@@ -707,7 +707,57 @@ Core Tag Library:
            excute only if test is true
         </ c:if>
 
-    
+  <c:choose>, <c:when>, and <c:otherwise>
+    provide complex if/else-if/else logic
+
+  <c:forEach>
+    provide Java fooloop or for-each loop
+    expression inside item must evaluate to some Collection, Map, Iterator, Enumeration, object array, or primitive array.
+
+  <c:forToken>
+    item attribute accepts a String, not Collection.
+  <c:redirect>
+  <c:import>
+    enable you to retrieve content from the resource at a particular URL
+  <c:set> and <c:remove>
+    set value for scoped variable, and remove value
+
+Using the Internationalization and Formatting tag library (FMT namespace)
+  <fmt:message>
+    resolves a localized message in a resource bundle and then either inlines that message on the page or save it to an EL variable.
+    the key attribute specifies the key of the localization message to resolve in the resource bundle.
+    optional bundle attribute: to indicate which localization bundle should be used to look for the key.
+    optional var attribute: specifies an EL variable to save the localized message to.
+      its corresponding scope attribute: controls which scope the variable goes in.
+    ie. <fmt:message key="store.greeting">
+          <fmt:param value="${numberofProducts}"/>
+        </fmt:message>
+  <fmt:setLocale>
+    sets the locale used to resolve resource bundle message for i18n and formatting.
+    the value attribute can be a string locale code or an EL expression evaluating to an instance of Locale.
+      the variant attribute can be nested in value attribute.
+    ie. <fmt:setLocale value="en_US" />
+
+  <fmt:bundle> and <fmt:setBundle>
+    specify the locale in the current localization context.
+    when an i18n tags needs to knows its localization context:
+      1. bundle attribute of <fmt:bundle>
+      2. use the i18n tag nested in a <fmt:bundle>
+      3. use the default localization context specified in the context init parameter.
+
+    <fmt: bundle> creates an ad-hoc localization context that affect only the nested tag within it.
+    <fmt: setBundle> exports a localization context to an EL variable that the i18n tag can later use by referencing the bundle variable in the bundle attribute.
+
+  <fmt: requestEncoding>
+    legacy 
+
+  <fmt: timeZone> and <fmt: setTimeZone>
+
+
+
+
+internationalization of your application: the process of replacing the <fmt:message> tags in JSP
+localization: the process of creating the properties files that contain the translation
 
 
 
