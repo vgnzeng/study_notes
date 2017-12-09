@@ -862,5 +862,62 @@ Purpose of Filter:
       using this filter to secure sensitive information being revealed with the Internal Server Error code 500.
 
 Creating, declaring and mapping filters:
+  Create filter:
+    implement Filter interface
+    called the init(), which provides access to the filter's configuration, its init parameter, and the ServletConext,
+  doFilter() is called when a request comes in that is mapped to the filter.
+    provides access to ServletRequest and ServletResponse, and FilterChain object.
+
+Filter Chain:
+  1 servlet can handle 1 request, any number of filter can intercept a request.
+
+Mapping to URL Patterns and Servlet Names:
+  Filter can map to URL patterns (and Servlet name), which determine which fillter/filters will intercept a request.
+  Any request matching a URL pattern goes to -> filter -> then any matching Servlet.
+  With URL pattern, you can intercept:
+    request to Servlet,
+    other resource: an image, CSS file, JS files, and more.
+  You can also map filter to Servlet name.
+
+Mapping to Different Request Dispatcher Types:
+  Normal request,
+  Forwarded request,
+  Included request,
+  Error resource request,
+  Asynchronous request.
+
+Using Deployment Descriptor to define filter:
+  <filter>
+    <filter-name>myFilter</filter-name>
+    <filter-class>com.wrox.MyFilter</filter-class>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>myFilter</filter-name>
+    <url-pattern>/foo</url-pattern>
+    <url-pattern>/bar/*</url-pattern>
+    <servlet-name>myServlet</servlet-name>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>ASYNC</dispatcher>
+  </filter-mapping>
+
+Using Annotation:
+  @WebFilter(
+	filterName = "myFilter",
+	urlPatterns = { "/foo", "/bar/*" },
+	servletNames = { "myServlet" },
+	dispatcherTypes = { DispatcherType.REQUEST, DispatcherType.ASYNC }
+  )
+  public class MyFilter implements Filter
 
 
+Using programmatic configuration:
+  using Servlet context to register and map filter
+
+
+### day 5 12/09
+
+ 
+
+
+	
