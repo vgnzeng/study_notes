@@ -918,6 +918,23 @@ Using programmatic configuration:
 ### day 5 12/09
 
  
+  Ordering your filters properly
+	Orders matters and doesn't matter'
+
+	URL pattern mapping vs. Servlet Name Mapping
+	  URL pattern mapping > Servlet name mapping
 
 
-	
+    Exploring FIlter Order with a SImple Example:
+
+	Using Filters with Asynchronous Request Handling:
+	  Note: Servlet's service method with asynchronous request handling can be return before a response is sent to the clinet.
+	  Request handling can then be delegated to another thread or completed base on some event. 
+
+      If you handle the response using the AsyncContext directly, the code executes outside the scope of any filters. 
+      If you use AsyncContext's dispatch method to internally forward the request to a URL, a filter mapped for ASYNC requests cna intercept the internal forward and apply wahtever additional logic is required.
+
+
+  Investigating practical uses for Filters:
+    implements ServletContextListener to define Filters;
+      
