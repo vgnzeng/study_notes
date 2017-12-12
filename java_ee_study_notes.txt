@@ -1063,6 +1063,23 @@ Using programmatic configuration:
 
 
 
+  Spring Framework:
+    application container for JAva that supplies useful features, such as Inversion of COntrol, Dependency Injection, abstract data access, transaction management, and more.
+    Spring Framework, often considered an alternative to or supplement for ENterprise JavaBeans
+    EJB
+      A Java EE server-side component for building enterprise applications in a modular fashion using encapsulated Beans.
+    Spring framework container can run in any Java EE application Server, Java EE web comtainer, or Java SE standalone application
+    EJB, is an application server-specific framework not found in desktop applications or even web containers such as Apache TOmcat and Jetty.
+    SF is more than just a replacement for EJB, it provides many features that to this jda Java EE still doesnot have replacement for.
+    SF is a productivity framework:
+      It makes developing applications of all types in a rapid way with modular concepts and testable code easier. It abstracts away the concepts of "requests" and "response" and enables you to write applications code that can be utilized from many different interfaces.
+
+  Inversion of Control and Dependency Injection:
+    IoC is a software design pattern whereby an assembler, in this case Spring Framework, binds object coupling at run time instead of compile time. Dependency is fulfilled when the application runs instead of Service A instaniating Service B directly.
+    Enabling to program against a set of interface, which can be swapped out in different environments without recompiling the code.
+      ie. in a testing environments: Mock or test services can be provided while running unit tests; then the same code can be deployed to a production environment with more real services.
+    Using DI, a piece of program code (in Spring Framework, a class) declares that it depends on another piece of program code (an interface>, and at run time the seembler injects an instance of that dependency.)
+
 
 
 
