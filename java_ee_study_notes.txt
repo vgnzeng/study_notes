@@ -942,4 +942,124 @@ Using programmatic configuration:
 #
 ##
 ### Chapter 10, Making Your Application Interactive with WebSockets
+	Problem: Getting New data from the Server to the Browser:
+	  Solution1: Frequent Polling
+	  Long Polling
+	  Chunked Encoding (HTTP mendates only 2 consecutive connection to any hostname)
+	  Applets and Adobe Flash:
+		full-duplex communications between a browser and a server over a single connection.
+		Java APplets or Adobe flash establish an ordinary TCP socket connection.	    
+   		insecure, slow, can't port to mobile platform, and requires browser plug-in to accomplish.
+
+    Solution:
+      HTTP/1.1 Upgrade, WebSocket:
+        can include the header name and value Connection: Upgrade in q request.
+        indicates what the client wants to upgrade to
+        additional Upgrade header must specify a list of one or more protocols.
+        These protocol should be something incompatible with HTTP/1.1,
+          ie. IRC or RTA.
+        The Server, if it accepts the upgrade request, returns the response code 1-1 Switching Protocols along with a response Upgrade header with a single value:
+          the first protocol that server supports from the list of requested protocols.
+
+        The most important feature of an HTTP Upgrade is that the resulting protocol can be anything.
+        It ceases to be an HTTP connection after the Upgrade handshake is complete and can even turn into a perisstent, full-duplex TCP socket connection.
+          You could use HTTP UPgrade to establish any kind of TCP communications between any two endpoints with a protocol of your own design.
+          However, browsers aren't about to turn JS developers loose on the TCP TCP stack, so some protocol needed to be agreed upons.
+          THuse, the WebScokets protocl was born.
+
+        If a particular resource on a server accepts only HTTP Upgrade requests, and a clinet connects to this resource without requesting an upgrade, the server can respond with 426 Upgrade Required to indicate that an upgrade is mandatory.
+          In this case, the response could also include the Connectggion: Upgrade header and the Upgrade header containing a list of upgrade protocols the server supports.
+        If a client request an upgrade to a protocol the server doesn't support, the server responds with 400 Bad REquest and can include the Upgrade header containing a list of the upgrade protocols ther server supports.
+        If ther server does not accept upgrade requests, it responds with 400 Bad Request.
+
+  WebSocket Protocol sits on top of HTTP/1.1 Upgrade
+    A WebSocket connection begins with a HTTP request to a URL with a special scheme.
+    The URI schemes ws and wss correspond to their HTTP counterparts http and https.
+    The Connection: Upgrade header is present alone with the Upgrade: websocket header, instructing the server to upgrade the connection to the WebSocket protocol.
+    After handshake, no difference between client and server, both are called peers.
+
+  The WebSocket protocol can securely allow cross-domain connections, eliminating restrictions placed on Ajax and XMLHttpRequest.
+
+
+  HTTP specification requireing browsers to limit simultaneous connections to two per hostname does not apply after the handshake is complte because the connection ceases to be an HTTP connection.
+
+  Handshake request headers in a WebSocket connection:
+    GET /webSocketEndpoint HTTP/1.1
+    Host: www.example.org
+    Connection: Upgrade
+    Upgrade: websocket
+    Origin: http://example.com
+    Sec-WebSocket-Key: x3JJHMbDL1EzLkH9sgSfn==
+    Sec-WebSocket-Version: 13
+    Sec-WebSocket-Protocol: game
+
+  Response
+    HTTP/1.1 101 Switching Protocols
+    Server: Apache 2.4
+    Connection: Upgrade
+    Upgrade : websocket
+    Sec-WebSocket-Accept: SFKDfnsdfksdfj=
+    Sec-WebSocket-Protocol: game
+
+  APIs that cover writing WebSocket Reqeust and response:
+    ie. Two applications written in any framework supporing WebSockets can establish communications.
+    Many of WebSocket implementations available contain both client and server endpoint tools.
+    - HTML5 (JavaScript) Client API:
+      WebSocket communications within a browser as an extension of HTML5.
+      ie. var connection = new WebSocket('ws://www.example.com/chat', {'chat.v1','chat.v2'});
+      Using the WebSocket Object:
+        if(connection.readyState == WebSocket.OPEN) { /* do something */ }
+    - Java WebSocket APIs:
+      2 artifacts for this API: client-only and full
+      Client API:
+        built on the ContainerProvider class, WebSocketContainer, RemoteEndpoint, and Session interfaces.
+      Server API:
+        add handfulof classes and interfaces on top of entire client API.
+
+
+
+  The Many uses of WebSocket:
+    WebSocket protocol has virtually unlimited uses:
+      JS chat, Multiplayer online games, Live Stock Ticker, Living Breaking News Ticker, HD VIdeo Streaming, Communications between nodes in an application cluster.
+
+
+#
+##
+### Chapter 11 Using Logging to Monitor Your Application
+
+  notify important events:
+    debug, errors, changes in application configuration, unexpected behavior, component startup or shutdown, user logins, data chagnes, and more.
+
+  console logging, flat file logging, XML loggin, JSON logging, syslong in Linux,
+  Socket logging, SMTP and SMS logging, database logging,
+
+  Using Logging Levels and Categories
+  	Each system has different logging levels.
+  	Logging Categories:
+  	  represented by named logger instances, and each logger can have a different level assigned to it.
+  	    ie. 2 different classes could have 2 different logger, and you could set one to log trace data, and the other to log warnings only.
+
+  Log Sifting:
+    different types or originations of events getlogged to different locations (different files, database tables or documents). 
+
+  Choosing a logging framework:
+    API vs. Implementation:
+      Logging API is tightly coupled with an underlaying implementation:
+        one solution: write a simple logging API to hide the underlying framework from your uses of logging in the code. Then, change a handful of classes in your API by swapping out the frame. THe rest of your application could contine using your API for logging as it always had.
+      java.util.logging framework, uses separation of logging API from implementation.
+      Standard implementation has handler that can write to the files, streams, sockets, console, and even memory. 
+      Some logging framework loads its configuration from a system property instead of the classpath, therefore, two web applications deployed in the same container instance cannot have different logging configurations unless the container has extended the base logging implementation. Tomcat does this, but not all container does.
+
+  Apache Commons Logging and SLF4J
+
+
+
+#
+##
+### Chapter 12 Introduction to Spring Framework
+
+
+### 12/12
+
+
 
