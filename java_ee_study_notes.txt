@@ -1063,3 +1063,63 @@ Using programmatic configuration:
 
 
 
+
+
+
+
+
+Aspect Object programming:
+  Spring Framework handles the instantilization and injection of dependencies, it can wrap instance of the dependencies it injects to decorate method calls with other behaviors.
+    ie. annotate methods to indicate security restrictions 
+  define your own cross-cutting concerns using aspects, and SF decoreates all the approperiate methods with these concerns.
+  Corss-cutting concerns:
+    concerns that affect multiple components of a program, often without regard to what those components are. 
+  AOP is a complement to OOP that enables application of those concerns through the definition of aspects, which specify how and when to apply the concerns.
+  SF provides extensive tools for aspect orjected programming.
+
+Data access and transaction management:
+  SF provides a set of data access tools that simplify the extraction and persistence of Java object in relational database.
+
+Applicaiton Messaging
+  tighe coupling:
+    ie. certain part of a program may want to know when another part of program performs a specified action.
+    The part of program performing this action should simply depend on the parts interested in the action and call methods on all of them to notify them, but that type of tight coupling is hard to maintain.
+  SF provides loose coupled message system, that uses the publish-subscribe pattern: components in a system announce that they are intested in certain messages without caring who is subscribed. 
+
+
+MVC for SF:
+  design pattern that helps you to make your application sacalable, secure, and easy to maintain.
+
+Why using SF:
+  Logical Code grouping:
+    ie. A servlet handling user profiles, could have many methods, each with a different route logic established in the doGet() and doPost().
+    1 possible solution: create many servlet. Pro: more testable and maintainable code base. Con: too many Servlet to maintain. 
+    Using SF, each contoller class act like a servlet with method-level mapping.
+      each method can have a unique mapping to a particular URL, request method, parameter existence, header value, content type, and/or expected response content.
+   Multiple User interfaces utilizing 1 code base:
+   	 uisng SF, business logic become encapsulated in a set of business objects called Services. 
+
+
+Understanding Application Context:
+  SF container comes with 1 or more application context. An application context manages a set of beans, Java objects that perform business logic. 
+    ie. execute tasks, persist and retrieve persisted data, respond to HTTP request, and more.
+  Spring managed beans can do:
+    dependency injection,
+    message notification, 
+    scheduled method execution,
+    bean validation, 
+    and other crucial Spring services.
+  Spring Application context is like a tree, where each node can inherit attributes from its parents, and up, but not from its siblings.
+
+Bootstrapping Spring Framework:
+  For Java, instruction in the application manifest file bootstrap the Java application by providing the name of a class with main(). 
+  Java container -> Tomcat container -> Servlet container. Each of these web application contains a form of bootstrap instruction:
+    ie. deployment descriptor or meta-infomationin he form of annotation that instruct Tomcat how to run them.
+
+  Spring Framework is also another container, it can run within any Java SE/EE container, and serves as the run-time environment for your application. Spring framework must be bootstrapped also.
+
+  Configuring vs bootstrapping Spring Framework, are different task and independent of eath other.
+    configuration: tells SPring how to run the application
+    bootstrappinng: starts Spring and pass intruction to it.
+    ie. in Java SE, programmatically bootstrap Spring
+    ie. in EE, using XML or programmatically bootstrap Sprinng with javax. servlet.ServletContainerInitializer.
